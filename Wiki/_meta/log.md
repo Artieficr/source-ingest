@@ -1,1 +1,11 @@
 # Ingest Log
+
+## 2026-06-14 02:32
+
+**Source**: [[LLM Data Usage Verification]]
+**Pages created**: [[the-llm-training-data-verification-gap]], [[major-llm-providers-public-data-use-policies-for-training]], [[how-llm-training-pipelines-process-data]], [[us-court-rulings-on-ai-training-and-copyright-2023-2025]], [[eu-and-uk-regulatory-approaches-to-ai-training-data]], [[documented-incidents-and-evidence-related-to-undisclosed-ai-training-data-use]], [[empirical-methods-for-detecting-whether-specific-data-was-used-in-training]], [[proposed-technical-solutions-for-verifying-ai-training-data-use]], [[policy-and-practical-recommendations-for-ai-training-data-transparency]]
+
+## 2026-06-14 02:34
+
+**Source**: [[Neuroscience Confirms - Why Doing Less Helps You Achieve More]]
+**Pages created**: [[open-goals-as-background-cognitive-load]], [[competing-goals-reduce-performance]], [[why-subtraction-feels-unrewarding-compared-to-adding]], [[focused-effort-compounds-more-than-scattered-effort]], [[the-subtraction-exercise-for-auditing-commitments]], [[a-physicians-burnout-from-over-optimization]]

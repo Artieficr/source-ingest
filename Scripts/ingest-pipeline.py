@@ -226,26 +226,44 @@ def read_page_content(slug):
 
 
 def append_frontmatter_list(page_path, field, slug):
-    """Mechanically append one Obsidian wikilink to a flow-style frontmatter
-    list field (e.g. 'related: ["[[a]]", "[[b]]"]'), if not already present."""
+    """Mechanically append one Obsidian wikilink to a frontmatter list field,
+    if not already present. Empty fields use flow style ('related: []');
+    non-empty fields use YAML block style ('related:\\n  - "[[a]]"')."""
     if not os.path.exists(page_path):
         return False
     with open(page_path, encoding="utf-8") as f:
         content = f.read()
 
-    pattern = re.compile(rf'^{re.escape(field)}: \[(.*?)\]$', re.MULTILINE)
-    m = pattern.search(content)
+    entry = f'"[[{slug}]]"'
+
+    # Block-style list: "field:\n  - ...\n  - ..."
+    block_pattern = re.compile(rf'^{re.escape(field)}:[ \t]*\n((?:^[ \t]+- .*\n)*)', re.MULTILINE)
+    m = block_pattern.search(content)
+    if m:
+        items_block = m.group(1)
+        items = re.findall(r'^[ \t]+-\s*(.*)$', items_block, re.MULTILINE)
+        if entry in items:
+            return True
+        new_block = items_block + f'  - {entry}\n'
+        content = content[:m.start(1)] + new_block + content[m.end(1):]
+        with open(page_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        return True
+
+    # Flow-style list: "field: [...]"
+    flow_pattern = re.compile(rf'^{re.escape(field)}: \[(.*?)\]$', re.MULTILINE)
+    m = flow_pattern.search(content)
     if not m:
         return False
 
-    items = [i.strip() for i in m.group(1).split(',') if i.strip()]
-    entry = f'"[[{slug}]]"'
+    items_str = m.group(1).strip()
+    items = [i.strip() for i in items_str.split(',') if i.strip()] if items_str else []
     if entry in items:
         return True
     items.append(entry)
 
-    new_line = f"{field}: [{', '.join(items)}]"
-    content = content[:m.start()] + new_line + content[m.end():]
+    new_block = f"{field}:\n" + "".join(f"  - {i}\n" for i in items)
+    content = content[:m.start()] + new_block.rstrip('\n') + content[m.end():]
     with open(page_path, "w", encoding="utf-8") as f:
         f.write(content)
     return True

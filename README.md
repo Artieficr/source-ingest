@@ -6,7 +6,7 @@ It's designed to be driven turn-by-turn by an LLM agent (Claude Code, Codex, Ody
 
 ## Quick start (new project)
 
-1. `git clone https://github.com/Artieficr/source-ingest` and `git checkout 97eccff` to grab fresh state, without examples (or skip `checkout` if you want to keep them).
+1. `git clone https://github.com/Artieficr/source-ingest` and `git checkout XXXX` to grab fresh state, without examples (or skip `checkout` if you want to keep them).
 Or manually copy `Schema/`, `Scripts/`, this `README.md`, and an empty `Wiki/_meta/` (with header-only `index.md` and `log.md`) into your vault. 
 2. Create `Sources/` with your source `.md` files, each with `processed: false` in frontmatter.
 3. Run `python3 Scripts/semantic-search.py --rebuild` once (creates `Scripts/wiki-index.json`; harmless if `Wiki/` is empty).

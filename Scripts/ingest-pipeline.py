@@ -269,17 +269,6 @@ def append_frontmatter_list(page_path, field, slug):
     return True
 
 
-def interconnect_same_source(slugs):
-    """Cross-link every page created in this ingest with every other one via
-    their 'related' frontmatter list -- pages extracted from the same source
-    are always at least related, so this skips the per-pair link judgment."""
-    for slug_a in slugs:
-        path_a = os.path.join(WIKI_DIR, f"{slug_a}.md")
-        for slug_b in slugs:
-            if slug_a != slug_b:
-                append_frontmatter_list(path_a, "related", slug_b)
-
-
 def semantic_search(query, top_n=SEARCH_TOP_N, threshold=SEARCH_THRESHOLD):
     result = subprocess.run(
         [sys.executable, "Scripts/semantic-search.py", query, str(top_n), "--threshold", str(threshold)],
@@ -598,9 +587,6 @@ def cmd_concepts():
         state["phase"] = "done"
         finalize(state)
         return
-
-    if len(groups) > 1:
-        interconnect_same_source(state["created_pages"])
 
     state["phase"] = "link"
     state["cursor"] = {"group_idx": 0, "candidates": [], "candidate_idx": 0}
